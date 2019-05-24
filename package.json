@@ -1,0 +1,75 @@
+{
+  "name": "daily-gateway",
+  "description": "Daily API gateway and authentication service",
+  "main": "index.js",
+  "author": "Ido Shamun <ido@elegantmonkeys.com>",
+  "private": true,
+  "engines": {
+    "node": "~10.12.0"
+  },
+  "scripts": {
+    "mocha": "NODE_ENV=test mocha",
+    "lint": "eslint . --ext .js",
+    "test": "yarn run lint && yarn run mocha",
+    "build": "babel . -d build --source-maps --ignore build,node_modules,test && cp package.json yarn.lock ./build",
+    "babel-node": "babel-node",
+    "watch": "nodemon --exec yarn run babel-node -- $npm_package_main | pino",
+    "start": "node $npm_package_main",
+    "encrypt:prod": "gcloud --project daily-ops kms encrypt --plaintext-file=./helm/values/prod.yaml --ciphertext-file=./helm/values/prod.yaml.enc --location=global --keyring=daily-ci --key=daily-gateway-ci"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn encrypt:prod && git add helm/values/prod.yaml.enc"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elegantmonkeys/daily-gateway.git"
+  },
+  "bugs": {
+    "url": "https://github.com/elegantmonkeys/daily-gateway/issues"
+  },
+  "homepage": "https://github.com/elegantmonkeys/daily-gateway#readme",
+  "dependencies": {
+    "@google-cloud/trace-agent": "^2.11.0",
+    "@koa/cors": "2",
+    "@slack/client": "^4.3.1",
+    "jsonwebtoken": "^8.3.0",
+    "knex": "^0.15.2",
+    "koa": "^2.7.0",
+    "koa-bodyparser": "^4.2.0",
+    "koa-context-validator": "^0.4.1",
+    "koa-etag": "^3.0.0",
+    "koa-generic-session-knex": "^1.0.1",
+    "koa-jwt": "^3.3.2",
+    "koa-pino-logger": "^2.1.1",
+    "koa-proxies": "^0.8.1",
+    "koa-router": "^7.2.1",
+    "koa-useragent": "^1.2.1",
+    "lodash": "^4.17.11",
+    "mysql": "^2.15.0",
+    "pino": "^4.7.3",
+    "request": "^2.85.0",
+    "request-promise-native": "^1.0.5",
+    "uuid": "^3.1.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
+    "eslint": "^4.9.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-chai-friendly": "^0.4.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-mocha": "^4.11.0",
+    "husky": "^1.0.0-rc.14",
+    "knex-cleaner": "^1.1.4",
+    "mocha": "^4.0.1",
+    "nock": "^9.4.2",
+    "nodemon": "^1.12.1",
+    "sinon": "^4.0.1",
+    "sinon-chai": "^2.14.0",
+    "supertest": "^3.0.0"
+  }
+}
