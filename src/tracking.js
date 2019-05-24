@@ -22,7 +22,7 @@ export default function (ctx, next) {
   if (!ctx.userAgent.isBot) {
     let userId = getTrackingId(ctx);
     if (ctx.state.user) {
-      // eslint-disable-next-line
+      // eslint-disable-next-line prefer-destructuring
       userId = ctx.state.user.userId;
       ctx.request.headers['Logged-In'] = true;
     } else if (!userId || !userId.length) {
