@@ -46,4 +46,4 @@ images: ['gcr.io/$PROJECT_ID/$REPO_NAME:$SHORT_SHA', 'gcr.io/$PROJECT_ID/$REPO_N
 secrets:
 - kmsKeyName: projects/daily-ops/locations/global/keyRings/daily-ci/cryptoKeys/daily-gateway-ci
   secretEnv:
-    SLACK_WEBHOOK: "CiQA4mdVwsQrCLnNuXW+vtn46vuCLTwG0MwaSyDWsYk6HLrGPikSdgDpyKhXmF+YRgzIImIatRppR0qOLqg7YSLHv3A+BORSU7SmArWBVqXcScEF8IiV2fBTU7C5d5xuK0uSHHO4vBAugtZkUicfRMyFafi0fb7nhFHyZTTX+Y3sdTTMbhaTXpxBkSaZ3AWHRf8cpNCMlSRPUQXl+kI="
+    SLACK_WEBHOOK: "CiQArXlbO2qXCBF8dwrRRvJ6F70aB1pqM6Hue8EdVSUelEahi5wSdgBj45jnAgZ4QxxVmNz6pV1+1329FaQnQR0Ciu3CUsj7E3y1NdN9Pqe5XB0RgPhXwt8pV7bAzhezJVa62gDN0VPt3EM/3lpLKdGe297/pfEj2VbUcrgaTvcFTWcXMgIUBIHZ1SxdDOwUz+ZlQ0kCbXAI6gWnBr8="
