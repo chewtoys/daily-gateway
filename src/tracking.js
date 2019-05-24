@@ -24,6 +24,7 @@ export default function (ctx, next) {
     if (ctx.state.user) {
       // eslint-disable-next-line
       userId = ctx.state.user.userId;
+      ctx.request.headers['Logged-In'] = true;
     } else if (!userId || !userId.length) {
       userId = uuid4().replace(/-/g, '');
     }
