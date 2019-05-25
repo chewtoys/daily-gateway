@@ -14,6 +14,6 @@ spec:
   acme:
     config:
     - http01:
-        ingress: daily-api
+        ingress: daily-gateway
       domains:
       - app.dailynow.co
