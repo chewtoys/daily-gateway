@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 import fs from 'fs';
 import db, { toCamelCase } from '../db';
 import { fetchGithubProfile, callGithubApi, fetchGoogleProfile, refreshGoogleToken } from '../profile';
@@ -65,3 +67,4 @@ run()
   .catch(console.error)
   .then(process.exit);
 
+/* eslint-enable no-console */

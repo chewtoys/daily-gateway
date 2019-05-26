@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 import { fetchInfo } from '../profile';
 import provider from '../models/provider';
 
@@ -10,3 +12,5 @@ run(process.argv[process.argv.length - 1])
   .then(console.log)
   .then(() => process.exit())
   .catch(console.error);
+
+/* eslint-enable no-console */
