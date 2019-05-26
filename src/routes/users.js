@@ -1,7 +1,7 @@
 import Router from 'koa-router';
 import { ForbiddenError } from '../errors';
 import provider from '../models/provider';
-import { fetchProfile, refreshGoogleToken } from '../profile';
+import { fetchProfile, refreshGoogleToken, fetchInfo } from '../profile';
 import { getTrackingId, setTrackingId } from '../tracking';
 
 const router = Router({
@@ -41,6 +41,23 @@ router.get(
     } else if (trackingId && trackingId.length) {
       ctx.status = 200;
       ctx.body = { id: trackingId };
+    } else {
+      throw new ForbiddenError();
+    }
+  },
+);
+
+router.get(
+  '/me/info',
+  async (ctx) => {
+    if (ctx.state.user) {
+      const { userId } = ctx.state.user;
+      const userProvider = await provider.getByUserId(userId);
+      if (!userProvider) {
+        throw new ForbiddenError();
+      }
+      ctx.body = await fetchInfo(userProvider);
+      ctx.status = 200;
     } else {
       throw new ForbiddenError();
     }
