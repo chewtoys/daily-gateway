@@ -151,6 +151,16 @@ spec:
               configMapKeyRef:
                 name: {{ template "daily-gateway.fullname" . }}
                 key: BESTICON_URL
+          - name: ACCESS_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: {{ template "daily-gateway.fullname" . }}
+                key: ACCESS_SECRET
+          - name: API_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: {{ template "daily-gateway.fullname" . }}
+                key: API_SECRET
           volumeMounts:
           - name: config
             mountPath: "/etc/config"

@@ -65,6 +65,8 @@ const config = {
   redirectorUrl: process.env.REDIRECTOR_URL || 'http://localhost:9090',
   besticonUrl: process.env.BESTICON_URL || 'http://localhost:8080',
   apiUrl: process.env.API_URL || 'http://localhost:5000',
+  accessSecret: process.env.ACCESS_SECRET || 'topsecret',
+  apiSecret: process.env.API_SECRET
 };
 
 export default config;

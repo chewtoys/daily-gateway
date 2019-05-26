@@ -2,7 +2,6 @@ import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
 import KoaPinoLogger from 'koa-pino-logger';
 import Router from 'koa-router';
-import KnexStore from 'koa-generic-session-knex';
 import userAgent from 'koa-useragent';
 import etag from 'koa-etag';
 import cors from '@koa/cors';
@@ -11,10 +10,9 @@ import proxy from 'koa-proxies';
 
 import config from './config';
 import errorHandler from './middlewares/errorHandler';
-import db from './db';
 import logger from './logger';
 import { verify as verifyJwt } from './jwt';
-import verifyTracking, { getTrackingId, setTrackingId } from './tracking';
+import verifyTracking from './tracking';
 
 import health from './routes/health';
 import download from './routes/download';
@@ -46,34 +44,41 @@ app.use(KoaPinoLogger({ logger, useLevel: 'debug' }));
 app.use(errorHandler());
 app.use(verifyJwt);
 app.use(userAgent);
-app.use(etag());
 
-/* migrate legacy cookies */
-const legacyStore = new KnexStore(db, { tableName: 'sessions', sync: true });
-app.use(async (ctx, next) => {
-  const newCookie = getTrackingId(ctx);
-  if (!newCookie || !newCookie.length) {
-    const legacyCookie = ctx.cookies.get('da', { signed: true });
-    if (legacyCookie && legacyCookie.length) {
-      const s = await legacyStore.get(legacyCookie);
-      if (s) {
-        setTrackingId(ctx, s.userId);
-        await legacyStore.destroy(legacyCookie);
-        ctx.log.info(`migrated cookie of ${s.userId}`);
-      }
-      ctx.cookies.set('da');
-      ctx.cookies.set('da.sig');
-    }
+// Machine-to-machine authentication
+app.use((ctx, next) => {
+  if (ctx.request.get('authorization') === `Service ${config.accessSecret}`
+    && ctx.request.get('user-id') && ctx.request.get('logged-in')) {
+    // eslint-disable-next-line
+    ctx.state = {
+      user: {
+        userId: ctx.request.get('user-id'),
+      },
+      service: true,
+    };
+  } else {
+    ctx.request.headers['user-id'] = null;
+    ctx.request.headers['logged-in'] = null;
   }
   return next();
 });
 
 app.use(verifyTracking);
 
+// Forward authentication headers
+app.use((ctx, next) => {
+  if (ctx.state.user && ctx.state.user.userId) {
+    ctx.request.headers['logged-in'] = true;
+    ctx.request.headers['user-id'] = ctx.state.user.userId;
+  }
+  return next();
+});
+
 const router = new Router({
   prefix: '/v1',
 });
 
+router.use(etag());
 router.use(bodyParser());
 router.use(users.routes(), users.allowedMethods());
 router.use(auth.routes(), auth.allowedMethods());
@@ -110,6 +115,9 @@ app.use(proxy('/', {
   target: config.apiUrl,
   changeOrigin: true,
   xfwd: true,
+  headers: {
+    authorization: `Service ${config.apiSecret}`,
+  },
 }));
 
 export default app;

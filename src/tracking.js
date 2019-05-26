@@ -19,12 +19,11 @@ export const getTrackingId = (ctx) => {
 };
 
 export default function (ctx, next) {
-  if (!ctx.userAgent.isBot) {
+  if (!ctx.userAgent.isBot && !ctx.state.service) {
     let userId = getTrackingId(ctx);
     if (ctx.state.user) {
       // eslint-disable-next-line prefer-destructuring
       userId = ctx.state.user.userId;
-      ctx.request.headers['Logged-In'] = true;
     } else if (!userId || !userId.length) {
       userId = uuid4().replace(/-/g, '');
     }
@@ -32,7 +31,7 @@ export default function (ctx, next) {
     if (userId !== getTrackingId(ctx)) {
       setTrackingId(ctx, userId);
     }
-    ctx.request.headers['User-Id'] = userId;
+    ctx.request.headers['user-id'] = userId;
   }
   return next();
 }
