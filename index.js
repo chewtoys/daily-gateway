@@ -2,11 +2,10 @@ import './trace';
 import logger from './src/logger';
 import app from './src/index';
 import config from './src/config';
-// import { migrate } from './src/db';
+import { migrate } from './src/db';
 
 logger.info('migrating database');
-Promise.resolve()
-// migrate()
+migrate()
   .then(() => {
     const server = app.listen(config.port);
 
