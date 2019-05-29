@@ -4,6 +4,7 @@ import nock from 'nock';
 import knexCleaner from 'knex-cleaner';
 import db, { migrate } from '../../../src/db';
 import app from '../../../src';
+import role from '../../../src/models/role';
 
 describe('users routes', () => {
   let request;
@@ -93,6 +94,34 @@ describe('users routes', () => {
         name: 'user',
         email: 'mail@github.com',
       });
+    });
+  });
+
+  describe('me roles', () => {
+    it('should return user\'s roles', async () => {
+      nock('https://github.com')
+        .post('/login/oauth/access_token', body => body.code === 'code')
+        .reply(200, { access_token: 'token' });
+
+      nock('https://api.github.com')
+        .get('/user')
+        .query({ access_token: 'token' })
+        .reply(200, { id: 'github_id', name: 'user', avatar_url: 'https://avatar.com' });
+
+      const { body } = await request
+        .post('/v1/auth/github/authenticate')
+        .send({ code: 'code' })
+        .expect(200);
+
+      await role.add(body.id, 'admin');
+      await role.add(body.id, 'moderator');
+
+      const res = await request
+        .get('/v1/users/me/roles')
+        .set('Authorization', `Bearer ${body.accessToken}`)
+        .expect(200);
+
+      expect(res.body).to.deep.equal(['admin', 'moderator']);
     });
   });
 });
