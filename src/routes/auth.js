@@ -48,6 +48,11 @@ Object.keys(providersConfig).forEach((providerName) => {
 
   router.get(`/${providerName}/callback`, async (ctx) => {
     const { query } = ctx.request;
+
+    if (!allowedOrigins.filter(origin => query.state.indexOf(origin) > -1).length) {
+      throw new ForbiddenError();
+    }
+
     ctx.status = 307;
     ctx.redirect(`${query.state}${query.state.indexOf('?') > -1 ? '&' : '?'}code=${query.code}`);
   });
