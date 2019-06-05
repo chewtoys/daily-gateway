@@ -8,6 +8,7 @@ import { fetchProfile } from '../profile';
 import { sign } from '../jwt';
 import { notifyNewUser } from '../slack';
 import { getTrackingId, setTrackingId } from '../tracking';
+import { ForbiddenError } from '../errors';
 
 const router = Router({
   prefix: '/auth',
@@ -17,6 +18,8 @@ const providersConfig = {
   github: config.github,
   google: config.google,
 };
+
+const allowedOrigins = config.cors.origin.split(',');
 
 Object.keys(providersConfig).forEach((providerName) => {
   const providerConfig = providersConfig[providerName];
@@ -31,6 +34,11 @@ Object.keys(providersConfig).forEach((providerName) => {
     }),
     async (ctx) => {
       const { query } = ctx.request;
+
+      if (!allowedOrigins.filter(origin => query.redirect_uri.indexOf(origin) > -1).length) {
+        throw new ForbiddenError();
+      }
+
       const url = `${providerConfig.authorizeUrl}?access_type=offline&response_type=code&redirect_uri=${encodeURIComponent(redirectUri)}&client_id=${providerConfig.clientId}&scope=${encodeURIComponent(providerConfig.scope)}&state=${encodeURIComponent(query.redirect_uri)}`;
 
       ctx.status = 307;
