@@ -15,7 +15,7 @@ import { verify as verifyJwt } from './jwt';
 import verifyTracking from './tracking';
 
 import health from './routes/health';
-import download from './routes/download';
+import redirects from './routes/redirects';
 import users from './routes/users';
 import auth from './routes/auth';
 
@@ -84,7 +84,7 @@ router.use(users.routes(), users.allowedMethods());
 router.use(auth.routes(), auth.allowedMethods());
 
 app.use(router.routes(), router.allowedMethods());
-app.use(download.routes(), download.allowedMethods());
+app.use(redirects.routes(), redirects.allowedMethods());
 app.use(health.routes(), health.allowedMethods());
 
 app.use(proxy('/r', {

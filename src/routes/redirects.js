@@ -1,11 +1,9 @@
 import Router from 'koa-router';
 
-const router = Router({
-  prefix: '/download',
-});
+const router = Router();
 
 router.get(
-  '/',
+  '/download',
   async (ctx) => {
     ctx.status = 307;
 
@@ -18,5 +16,8 @@ router.get(
     }
   },
 );
+
+router.get('/privacy', ctx => ctx.redirect('https://www.iubenda.com/privacy-policy/14695236'));
+router.get('/tos', ctx => ctx.redirect('https://medium.com/daily-now/daily-terms-of-service-47bb9c9a4b99'));
 
 export default router;
