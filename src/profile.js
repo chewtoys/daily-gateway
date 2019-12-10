@@ -37,11 +37,15 @@ export const fetchGithubProfile = accessToken =>
 
 export const fetchProfile = async (provider, accessToken) => {
   if (provider === 'github') {
-    const profile = await fetchGithubProfile(accessToken);
+    const [profile, emails] = await Promise.all([
+      fetchGithubProfile(accessToken),
+      callGithubApi('user/public_emails', accessToken),
+    ]);
     return {
       id: profile.id,
       name: profile.name,
       image: profile.avatar_url,
+      email: emails && emails.length && emails[0].email,
     };
   } else if (provider === 'google') {
     const profile = await fetchGoogleProfile(accessToken);
@@ -49,34 +53,9 @@ export const fetchProfile = async (provider, accessToken) => {
       id: profile.resourceName.replace('people/', ''),
       name: profile.names.length ? profile.names[0].displayName : null,
       image: profile.photos.length ? profile.photos[0].url : null,
+      email: profile.emailAddresses.length > 0 ? profile.emailAddresses[0].value : undefined,
     };
   }
 
   throw new Error('unsupported profile provider');
-};
-
-export const fetchInfo = async (user) => {
-  if (user.provider === 'github') {
-    const [profile, emails] = await Promise.all([
-      fetchGithubProfile(user.accessToken),
-      callGithubApi('user/public_emails', user.accessToken),
-    ]);
-    if (emails.length) {
-      return {
-        name: profile.name,
-        email: emails[0].email,
-      };
-    }
-  }
-
-  const token = await refreshGoogleToken(user.userId, user.refreshToken);
-  const profile = await fetchGoogleProfile(token.access_token);
-  if (profile.emailAddresses.length) {
-    return {
-      name: profile.names[0].displayName,
-      email: profile.emailAddresses[0].value,
-    };
-  }
-
-  return null;
 };

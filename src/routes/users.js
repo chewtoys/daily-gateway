@@ -2,7 +2,7 @@ import Router from 'koa-router';
 import { ForbiddenError } from '../errors';
 import provider from '../models/provider';
 import role from '../models/role';
-import { fetchProfile, refreshGoogleToken, fetchInfo } from '../profile';
+import { fetchProfile, refreshGoogleToken } from '../profile';
 import { getTrackingId, setTrackingId } from '../tracking';
 import config from '../config';
 
@@ -24,7 +24,7 @@ router.get(
 
       if (userProvider.expiresIn && userProvider.expiresIn < new Date()) {
         ctx.log.info(`refreshing access token for user ${userId}`);
-        const res = await refreshGoogleToken(userId, userProvider.refreshToken);
+        const res = await refreshGoogleToken(userProvider.providerId, userProvider.refreshToken);
         await provider.updateToken(
           userId, userProvider.provider,
           res.access_token, new Date(Date.now() + (res.expires_in * 1000)),
@@ -64,7 +64,8 @@ router.get(
       if (!userProvider) {
         throw new ForbiddenError();
       }
-      ctx.body = await fetchInfo(userProvider);
+      const profile = await fetchProfile(userProvider.provider, userProvider.accessToken);
+      ctx.body = { name: profile.name, email: profile.email };
       ctx.status = 200;
     } else {
       throw new ForbiddenError();
