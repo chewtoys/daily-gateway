@@ -71,6 +71,8 @@ app.use((ctx, next) => {
   return next();
 });
 
+app.use(health.routes(), health.allowedMethods());
+
 app.use(verifyTracking);
 
 // Forward authentication headers
@@ -93,7 +95,6 @@ router.use(auth.routes(), auth.allowedMethods());
 
 app.use(router.routes(), router.allowedMethods());
 app.use(redirects.routes(), redirects.allowedMethods());
-app.use(health.routes(), health.allowedMethods());
 
 app.use(proxy('/r', {
   target: config.redirectorUrl,
