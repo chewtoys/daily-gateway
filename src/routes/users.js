@@ -15,9 +15,11 @@ const router = Router({
 router.get(
   '/me',
   async (ctx) => {
+    let visitId;
     const trackingId = getTrackingId(ctx);
     if (ctx.state.user) {
       const { userId } = ctx.state.user;
+      visitId = userId;
 
       const [user, userProvider] = await Promise.all([
         userModel.getById(userId),
@@ -39,16 +41,18 @@ router.get(
 
       ctx.status = 200;
       ctx.body = Object.assign({}, user, { providers: [userProvider.provider] });
-      const app = ctx.request.get('app');
-      if (app === 'extension') {
-        visit.upsert(userId, app, new Date())
-          .catch(err => ctx.log.error({ err }, `failed to update visit for ${userId}`));
-      }
     } else if (trackingId && trackingId.length) {
+      visitId = trackingId;
       ctx.status = 200;
       ctx.body = { id: trackingId };
     } else {
       throw new ForbiddenError();
+    }
+
+    const app = ctx.request.get('app');
+    if (app === 'extension') {
+      visit.upsert(visitId, app, new Date())
+        .catch(err => ctx.log.error({ err }, `failed to update visit for ${userId}`));
     }
   },
 );
