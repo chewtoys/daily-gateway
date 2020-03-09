@@ -52,7 +52,7 @@ router.get(
     const app = ctx.request.get('app');
     if (app === 'extension') {
       visit.upsert(visitId, app, new Date())
-        .catch(err => ctx.log.error({ err }, `failed to update visit for ${userId}`));
+        .catch(err => ctx.log.error({ err }, `failed to update visit for ${visitId}`));
     }
   },
 );
