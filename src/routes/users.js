@@ -68,8 +68,8 @@ router.put(
     body: object().keys({
       name: string().required(),
       email: string().email().required(),
-      company: string(),
-      title: string(),
+      company: string().allow(null),
+      title: string().allow(null),
     }),
   }, { stripUnknown: true }),
   async (ctx) => {
