@@ -45,7 +45,6 @@ app.use(async (ctx, next) => {
   const cookie = ctx.cookies.get(config.cookies.auth.key);
   if (!ctx.state.user && cookie) {
     ctx.state.user = await verifyJwt(cookie);
-    console.log(ctx.state.user);
   }
   return next();
 });
