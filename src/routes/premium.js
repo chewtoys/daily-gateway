@@ -29,7 +29,7 @@ const encryptUserParams = (user) => {
     { key: 'firstname', value: names[0] },
     { key: 'lastname', value: names.slice(1).join(' ') },
     { key: 'email', value: user.email || '' },
-    { key: 'phonevisisble', value: 'N' },
+    { key: 'phonevisible', value: 'N' },
     { key: 'personalId', value: user.id },
   ]);
 };
