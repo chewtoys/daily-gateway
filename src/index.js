@@ -79,7 +79,7 @@ app.use((ctx, next) => {
   if (ctx.state.user && ctx.state.user.userId) {
     ctx.request.headers['logged-in'] = true;
     ctx.request.headers['user-id'] = ctx.state.user.userId;
-    ctx.request.headers.premium = ctx.state.user.premium;
+    ctx.request.headers.premium = !!ctx.state.user.premium;
   }
   return next();
 });
