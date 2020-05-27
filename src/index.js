@@ -84,13 +84,11 @@ app.use((ctx, next) => {
   return next();
 });
 
-app.use(bodyParser({
-  enableTypes: ['json', 'form', 'text'],
-}));
-
 const router = new Router({
   prefix: '/v1',
 });
+
+router.use(bodyParser());
 
 router.use(users.routes(), users.allowedMethods());
 router.use(auth.routes(), auth.allowedMethods());

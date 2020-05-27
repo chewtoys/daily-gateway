@@ -1,5 +1,6 @@
 import Router from 'koa-router';
 import rp from 'request-promise-native';
+import bodyParser from 'koa-bodyparser';
 import config from '../config';
 import userModel from '../models/user';
 import { addUserToContacts, removeUserFromList, getContactIdByEmail } from '../mailing';
@@ -63,6 +64,9 @@ router.get(
 
 router.post(
   '/ipn',
+  bodyParser({
+    enableTypes: ['json', 'form', 'text'],
+  }),
   async (ctx) => {
     if (config.bluesnap.ip.indexOf(ctx.request.ip) > -1) {
       const { body } = ctx.request;
