@@ -10,7 +10,7 @@ import role from '../models/role';
 import visit from '../models/visit';
 import { getTrackingId, setTrackingId } from '../tracking';
 import config from '../config';
-import { setAuthCookie } from '../cookies';
+import { setAuthCookie, addSubdomainOpts } from '../cookies';
 import { updateUserContact } from '../mailing';
 
 const router = Router({
@@ -127,7 +127,10 @@ router.post(
   '/logout',
   async (ctx) => {
     setTrackingId(ctx, null);
-    ctx.cookies.set(config.cookies.auth.key);
+    ctx.cookies.set(
+      config.cookies.auth.key,
+      undefined, addSubdomainOpts(ctx, config.cookies.auth.opts),
+    );
     ctx.status = 204;
   },
 );
