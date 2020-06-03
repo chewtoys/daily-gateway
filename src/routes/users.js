@@ -35,8 +35,10 @@ router.get(
         throw new ForbiddenError();
       }
 
-      // Refresh the auth cookie
-      await setAuthCookie(ctx, user);
+      if (!ctx.userAgent.isBot && !ctx.state.service) {
+        // Refresh the auth cookie
+        await setAuthCookie(ctx, user);
+      }
 
       ctx.status = 200;
       ctx.body = Object.assign({}, user, { providers: [userProvider.provider] });
