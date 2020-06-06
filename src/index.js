@@ -121,6 +121,15 @@ app.use(proxy('/lettericons', {
   xfwd: true,
 }));
 
+app.use(proxy('/scrape', {
+  target: config.scraperUrl,
+  changeOrigin: true,
+  xfwd: true,
+  headers: {
+    authorization: `Service ${config.scraperSecret}`,
+  },
+}));
+
 app.use(proxy('/', {
   target: config.apiUrl,
   changeOrigin: true,

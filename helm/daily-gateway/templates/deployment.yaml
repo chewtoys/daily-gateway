@@ -151,6 +151,16 @@ spec:
               secretKeyRef:
                 name: {{ template "daily-gateway.fullname" . }}
                 key: API_SECRET
+          - name: SCRAPER_URL
+            valueFrom:
+              configMapKeyRef:
+                name: {{ template "daily-gateway.fullname" . }}
+                key: SCRAPER_URL
+          - name: SCRAPER_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: {{ template "daily-gateway.fullname" . }}
+                key: SCRAPER_SECRET
           - name: SENDGRID_API_KEY
             valueFrom:
               secretKeyRef:

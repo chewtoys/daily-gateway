@@ -12,5 +12,6 @@ data:
   MONETIZATION_URL: {{ .Values.appConfig.monetizationUrl }}
   REDIRECTOR_URL: {{ .Values.appConfig.redirectorUrl }}
   API_URL: {{ .Values.appConfig.apiUrl }}
+  SCRAPER_URL: {{ .Values.appConfig.scraperUrl }}
   BESTICON_URL: {{ .Values.appConfig.besticonUrl }}
 
