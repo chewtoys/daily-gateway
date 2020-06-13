@@ -1,3 +1,4 @@
+import './profiler';
 import './trace';
 import logger from './src/logger';
 import app from './src/index';
