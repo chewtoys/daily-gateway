@@ -1,7 +1,7 @@
 import Router from 'koa-router';
 import rp from 'request-promise-native';
 import bodyParser from 'koa-bodyparser';
-import validator, {string} from 'koa-context-validator';
+import validator, { string } from 'koa-context-validator';
 import config from '../config';
 import userModel from '../models/user';
 import { addUserToContacts, removeUserFromList, getContactIdByEmail } from '../mailing';
