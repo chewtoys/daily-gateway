@@ -1,6 +1,7 @@
 import Router from 'koa-router';
 import rp from 'request-promise-native';
 import bodyParser from 'koa-bodyparser';
+import validator, {string} from 'koa-context-validator';
 import config from '../config';
 import userModel from '../models/user';
 import { addUserToContacts, removeUserFromList, getContactIdByEmail } from '../mailing';
@@ -24,10 +25,10 @@ const encryptParamsXml = params => `
 </param-encryption>
 `;
 
-const encryptUserParams = (user) => {
+const encryptUserParams = (user, sku) => {
   const names = (user.name || '').split(' ');
   return encryptParamsXml([
-    { key: 'sku2596871', value: 1 },
+    { key: `sku${sku}`, value: 1 },
     { key: 'firstname', value: names[0] },
     { key: 'lastname', value: names.slice(1).join(' ') },
     { key: 'email', value: user.email || '' },
@@ -37,11 +38,19 @@ const encryptUserParams = (user) => {
 
 router.get(
   '/checkout',
+  validator({
+    query: {
+      sub: string().required(),
+    },
+  }, {
+    stripUnknown: true,
+  }),
   async (ctx) => {
     if (ctx.state.user) {
       const { userId } = ctx.state.user;
       const user = await userModel.getById(userId);
-      const body = encryptUserParams(user);
+      const sku = ctx.request.query.sub === 'monthly' ? '3868802' : '3868804';
+      const body = encryptUserParams(user, sku);
       const res = await rp({
         url: `${config.bluesnap.apiUrl}/services/2/tools/param-encryption`,
         method: 'POST',
