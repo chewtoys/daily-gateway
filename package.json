@@ -39,7 +39,7 @@
     "koa-pino-logger": "^2.1.1",
     "koa-proxies": "^0.8.1",
     "koa-router": "^7.2.1",
-    "koa-useragent": "^1.2.1",
+    "koa-useragent": "^4.0.0",
     "lodash": "^4.17.13",
     "mysql": "^2.15.0",
     "pino": "^4.7.3",

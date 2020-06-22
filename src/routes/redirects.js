@@ -11,6 +11,8 @@ router.get(
       ctx.redirect('https://www.dailynow.co');
     } else if (ctx.userAgent.browser.toLowerCase() === 'firefox') {
       ctx.redirect('https://addons.mozilla.org/en-US/firefox/addon/daily/');
+    } else if (ctx.userAgent.source.indexOf('Edg/') > -1) {
+      ctx.redirect('https://microsoftedge.microsoft.com/addons/detail/daily-20-source-for-bu/cbdhgldgiancdheindpekpcbkccpjaeb');
     } else {
       ctx.redirect('https://chrome.google.com/webstore/detail/daily-discover-web-techno/jlmpjdjjbgclbocgajdjefcidcncaied');
     }

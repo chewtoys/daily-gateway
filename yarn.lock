@@ -2478,6 +2478,11 @@ expand-tilde@^2.0.0, expand-tilde@^2.0.2:
   dependencies:
     homedir-polyfill "^1.0.1"
 
+express-useragent@^1.0.13:
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/express-useragent/-/express-useragent-1.0.13.tgz#82f7c252037a388c0412e22a59b2b128574f7e16"
+  integrity sha512-3RGcGuXbyr/t62yyu3CRLFS9Fc30tWiVd6TQ1/C7mdQU4Yv7UPfSvtAkYfqoaH2FMkQvrXD7V/FtpFhy6MfUcg==
+
 extend-shallow@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/extend-shallow/-/extend-shallow-2.0.1.tgz#51af7d614ad9a9f610ea1bafbb989d6b1c56890f"
@@ -3904,10 +3909,12 @@ koa-unless@1.0.7:
   resolved "https://registry.yarnpkg.com/koa-unless/-/koa-unless-1.0.7.tgz#b9df375e2b4da3043918d48622520c2c0b79f032"
   integrity sha1-ud83XitNowQ5GNSGIlIMLAt58DI=
 
-koa-useragent@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/koa-useragent/-/koa-useragent-1.2.1.tgz#67ef2f13a0e5ddb9707dabe3a65c29ab5c3fdfe6"
-  integrity sha512-D1FvHDJXiPxx5GQroY2TiIn7iqVkklLHfANr7B6IRodfxw9WAvKSYNnaYpJvgOFZqbCTVIy6W+iuJA6urvGjGw==
+koa-useragent@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/koa-useragent/-/koa-useragent-4.0.0.tgz#4177730a03ddb06f503aea7635fa22a9db5af961"
+  integrity sha512-mcfQ5xuyxFq8R19g6BPicrVimfiDqShoOGXLcbcG3QgHy7RiQy9lHzKRfU9Vf9OYIPSYKxq+L4oX50XvON0UCA==
+  dependencies:
+    express-useragent "^1.0.13"
 
 koa@^2.7.0:
   version "2.11.0"
