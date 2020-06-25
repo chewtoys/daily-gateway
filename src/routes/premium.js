@@ -66,7 +66,7 @@ router.get(
       ctx.redirect(`${config.bluesnap.checkoutUrl}/buynow/checkout?storeId=${config.bluesnap.storeId}&enc=${enc}`);
     } else {
       ctx.status = 307;
-      ctx.redirect('https://daily.dev');
+      ctx.redirect('https://daily.dev/almost-there');
     }
   },
 );
