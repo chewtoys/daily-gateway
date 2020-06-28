@@ -11,12 +11,12 @@ describe('visit model', () => {
 
   it('should add new visit to db and then update', async () => {
     const date1 = new Date('2020-01-21T21:44:16');
-    await visit.upsert('1', 'app', date1);
+    await visit.upsert('1', 'app', date1, date1, 'ido');
     const expected1 = await visit.get('1', 'app');
-    expect(expected1).to.deep.equal(date1);
+    expect(expected1).to.deep.equal({ visitedAt: date1, firstVisit: date1, referral: 'ido' });
     const date2 = new Date('2020-01-21T21:45:16');
     await visit.upsert('1', 'app', date2);
     const expected2 = await visit.get('1', 'app');
-    expect(expected2).to.deep.equal(date2);
+    expect(expected2).to.deep.equal({ visitedAt: date2, firstVisit: date1, referral: 'ido' });
   });
 });

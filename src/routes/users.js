@@ -52,7 +52,8 @@ router.get(
 
     const app = ctx.request.get('app');
     if (app === 'extension') {
-      visit.upsert(visitId, app, new Date())
+      const referral = ctx.cookies.get(config.cookies.referral.key, config.cookies.referral.opts);
+      visit.upsert(visitId, app, new Date(), new Date(), referral)
         .catch(err => ctx.log.error({ err }, `failed to update visit for ${visitId}`));
     }
   },
@@ -132,6 +133,10 @@ router.post(
     ctx.cookies.set(
       config.cookies.auth.key,
       undefined, addSubdomainOpts(ctx, config.cookies.auth.opts),
+    );
+    ctx.cookies.set(
+      config.cookies.referral.key,
+      undefined, addSubdomainOpts(ctx, config.cookies.referral.opts),
     );
     ctx.status = 204;
   },

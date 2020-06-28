@@ -5,6 +5,36 @@ import { addSubdomainOpts } from '../cookies';
 
 const router = Router();
 
+const setReferral = (ctx) => {
+  const { referral } = ctx.request.query;
+  if (referral) {
+    ctx.log.info({ referral }, 'redirecting by referral');
+    ctx.cookies.set(
+      config.cookies.referral.key, referral,
+      addSubdomainOpts(ctx, config.cookies.referral.opts),
+    );
+  }
+};
+
+router.get(
+  '/landing',
+  validator({
+    query: {
+      referral: string(),
+    },
+  }, {
+    stripUnknown: true,
+  }),
+  async (ctx) => {
+    ctx.status = 307;
+
+    if (!ctx.userAgent.isBot) {
+      setReferral(ctx);
+    }
+    ctx.redirect('https://daily.dev');
+  },
+);
+
 router.get(
   '/download',
   validator({
@@ -18,18 +48,11 @@ router.get(
     ctx.status = 307;
 
     if (ctx.userAgent.isBot) {
-      ctx.redirect('https://www.dailynow.co');
+      ctx.redirect('https://daily.dev');
       return;
     }
 
-    const { referral } = ctx.request.query;
-    if (referral) {
-      ctx.log.info({ referral }, 'redirecting to download by referral');
-      ctx.cookies.set(
-        config.cookies.referral.key, referral,
-        addSubdomainOpts(ctx, config.cookies.referral.opts),
-      );
-    }
+    setReferral(ctx);
 
     if (ctx.userAgent.browser.toLowerCase() === 'firefox') {
       ctx.redirect('https://addons.mozilla.org/en-US/firefox/addon/daily/');
