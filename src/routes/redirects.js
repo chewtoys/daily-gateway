@@ -6,7 +6,7 @@ import { addSubdomainOpts } from '../cookies';
 const router = Router();
 
 const setReferral = (ctx) => {
-  const { referral } = ctx.request.query;
+  const { r: referral } = ctx.request.query;
   if (referral) {
     ctx.log.info({ referral }, 'redirecting by referral');
     ctx.cookies.set(
@@ -20,7 +20,7 @@ router.get(
   '/landing',
   validator({
     query: {
-      referral: string(),
+      r: string(),
     },
   }, {
     stripUnknown: true,
@@ -39,7 +39,7 @@ router.get(
   '/download',
   validator({
     query: {
-      referral: string(),
+      r: string(),
     },
   }, {
     stripUnknown: true,
