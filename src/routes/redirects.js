@@ -36,9 +36,9 @@ router.get(
 router.get(
   '/download',
   validator({
-    query: {
+    query: object().keys({
       r: string(),
-    },
+    }).unknown(),
   }),
   async (ctx) => {
     ctx.status = 307;
