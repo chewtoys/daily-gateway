@@ -1,5 +1,5 @@
 import Router from 'koa-router';
-import validator, { string } from 'koa-context-validator';
+import validator, { string, object } from 'koa-context-validator';
 import config from '../config';
 import { addSubdomainOpts } from '../cookies';
 
@@ -19,11 +19,9 @@ const setReferral = (ctx) => {
 router.get(
   '/landing',
   validator({
-    query: {
+    query: object().keys({
       r: string(),
-    },
-  }, {
-    stripUnknown: true,
+    }).unknown(),
   }),
   async (ctx) => {
     ctx.status = 307;
@@ -31,7 +29,7 @@ router.get(
     if (!ctx.userAgent.isBot) {
       setReferral(ctx);
     }
-    ctx.redirect('https://daily.dev');
+    ctx.redirect(`https://daily.dev?${ctx.request.querystring}`);
   },
 );
 
@@ -41,8 +39,6 @@ router.get(
     query: {
       r: string(),
     },
-  }, {
-    stripUnknown: true,
   }),
   async (ctx) => {
     ctx.status = 307;
@@ -55,11 +51,11 @@ router.get(
     setReferral(ctx);
 
     if (ctx.userAgent.browser.toLowerCase() === 'firefox') {
-      ctx.redirect('https://addons.mozilla.org/en-US/firefox/addon/daily/');
+      ctx.redirect(`https://addons.mozilla.org/en-US/firefox/addon/daily/?${ctx.request.querystring}`);
     } else if (ctx.userAgent.source.indexOf('Edg/') > -1) {
-      ctx.redirect('https://microsoftedge.microsoft.com/addons/detail/daily-20-source-for-bu/cbdhgldgiancdheindpekpcbkccpjaeb');
+      ctx.redirect(`https://microsoftedge.microsoft.com/addons/detail/daily-20-source-for-bu/cbdhgldgiancdheindpekpcbkccpjaeb?${ctx.request.querystring}`);
     } else {
-      ctx.redirect('https://chrome.google.com/webstore/detail/daily-discover-web-techno/jlmpjdjjbgclbocgajdjefcidcncaied');
+      ctx.redirect(`https://chrome.google.com/webstore/detail/daily-discover-web-techno/jlmpjdjjbgclbocgajdjefcidcncaied?${ctx.request.querystring}`);
     }
   },
 );
