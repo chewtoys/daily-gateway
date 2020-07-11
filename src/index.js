@@ -6,7 +6,6 @@ import userAgent from 'koa-useragent';
 import cors from '@koa/cors';
 import proxy from 'koa-proxies';
 
-
 import config from './config';
 import errorHandler from './middlewares/errorHandler';
 import logger from './logger';
@@ -18,6 +17,7 @@ import redirects from './routes/redirects';
 import users from './routes/users';
 import auth from './routes/auth';
 import premium from './routes/premium';
+import contests from './routes/contests';
 
 const app = new Koa();
 
@@ -92,6 +92,7 @@ router.use(bodyParser());
 
 router.use(users.routes(), users.allowedMethods());
 router.use(auth.routes(), auth.allowedMethods());
+router.use(contests.routes(), contests.allowedMethods());
 
 app.use(router.routes(), router.allowedMethods());
 app.use(redirects.routes(), redirects.allowedMethods());
