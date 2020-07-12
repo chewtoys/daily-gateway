@@ -129,7 +129,7 @@ router.get(
 router.post(
   '/logout',
   async (ctx) => {
-    setTrackingId(ctx, null);
+    setTrackingId(ctx, undefined);
     ctx.cookies.set(
       config.cookies.auth.key,
       undefined, addSubdomainOpts(ctx, config.cookies.auth.opts),

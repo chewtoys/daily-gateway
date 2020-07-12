@@ -4,14 +4,10 @@ import { addSubdomainOpts } from './cookies';
 
 export const setTrackingId = (ctx, id) => {
   ctx.trackingId = id;
-  if (id) {
-    ctx.cookies.set(
-      config.cookies.tracking.key, id,
-      addSubdomainOpts(ctx, config.cookies.tracking.opts),
-    );
-  } else {
-    ctx.cookies.set(config.cookies.tracking.key);
-  }
+  ctx.cookies.set(
+    config.cookies.tracking.key, id,
+    addSubdomainOpts(ctx, config.cookies.tracking.opts),
+  );
 };
 
 export const getTrackingId = (ctx) => {
