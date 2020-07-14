@@ -32,7 +32,12 @@ const validateRedirectUri = (redirectUri) => {
 };
 
 const authorize = (ctx, providerName, redirectUri) => {
-  const { query } = ctx.request;
+  const { query, origin, url: reqUrl } = ctx.request;
+  if (origin !== config.primaryAuthOrigin) {
+    ctx.status = 307;
+    ctx.redirect(`${config.primaryAuthOrigin}${reqUrl}`);
+    return;
+  }
 
   validateRedirectUri(query.redirect_uri);
   const providerConfig = providersConfig[providerName];
@@ -87,6 +92,7 @@ const authenticate = async (ctx, redirectUriFunc) => {
 
   const res = (typeof resRaw === 'string') ? JSON.parse(resRaw) : resRaw;
   if (!res.access_token) {
+    ctx.log.error(res);
     throw new ForbiddenError();
   }
 
@@ -180,7 +186,7 @@ router.post(
     stripUnknown: true,
   }),
   async (ctx) => {
-    const user = await authenticate(ctx, () => `${ctx.request.origin}/v1/auth/callback`);
+    const user = await authenticate(ctx, () => `${config.primaryAuthOrigin}/v1/auth/callback`);
     await setAuthCookie(ctx, user);
 
     ctx.log.info(`connected ${user.id} with ${user.providers[0]}`);
