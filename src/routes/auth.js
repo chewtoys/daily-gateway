@@ -24,6 +24,7 @@ const providersConfig = {
 };
 
 const allowedOrigins = config.cors.origin.split(',');
+const fallbackAvatar = 'https://res.cloudinary.com/daily-now/image/upload/v1594823750/placeholders/avatar.jpg';
 
 const validateRedirectUri = (redirectUri) => {
   if (!allowedOrigins.filter(origin => redirectUri.indexOf(origin) > -1).length) {
@@ -113,7 +114,7 @@ const authenticate = async (ctx, redirectUriFunc) => {
     const hasEmail = profile.email && profile.email.indexOf('users.noreply.github.com') < 0;
     [user] = await Promise.all([
       userModel.add(
-        userId, profile.name, hasEmail ? profile.email : undefined, profile.image,
+        userId, profile.name, hasEmail ? profile.email : undefined, profile.image || fallbackAvatar,
         ctx.cookies.get(config.cookies.referral.key, config.cookies.referral.opts),
       ),
       provider.add(
