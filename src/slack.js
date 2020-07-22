@@ -7,10 +7,17 @@ const webhook = (process.env.SLACK_WEBHOOK && process.env.NODE_ENV === 'producti
 export const notifyNewUser = user =>
   webhook.send({
     text: 'Daily just got a new user!',
-    attachments: [{
-      title: user.name,
-      author_name: user.id,
-      thumb_url: user.image,
-      color: '#208BFF',
-    }],
+    attachments: [
+      {
+        title: user.name,
+        thumb_url: user.image,
+        fields: [
+          {
+            title: 'User ID',
+            value: user.id,
+          },
+        ],
+        color: '#208BFF',
+      },
+    ],
   });
