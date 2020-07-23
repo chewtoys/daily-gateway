@@ -14,7 +14,7 @@ const router = Router({
 });
 
 const getReferralLink = (ctx) => {
-  const base = 'https://app.dailynow.co/get?r=';
+  const base = 'https://api.daily.dev/get?r=';
   if (ctx.state.user) {
     return `${base}${ctx.state.user.userId}`;
   }

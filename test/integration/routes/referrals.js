@@ -109,7 +109,7 @@ describe('referrals routes', () => {
       .get('/v1/referrals/link')
       .set('Authorization', `Bearer ${accessToken.token}`)
       .expect(200);
-    expect(res.body.link).to.deep.equal('https://app.dailynow.co/get?r=1');
+    expect(res.body.link).to.deep.equal('https://api.daily.dev/get?r=1');
   });
 
   it('should return leaderboard and rank of logged in user', async () => {
@@ -154,7 +154,7 @@ describe('referrals routes', () => {
         points: 2,
         rank: 2,
       },
-      referralLink: 'https://app.dailynow.co/get?r=2',
+      referralLink: 'https://api.daily.dev/get?r=2',
     });
   });
 
