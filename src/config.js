@@ -46,7 +46,7 @@ const config = {
         httpOnly: true,
         signed: true,
         secure: env === 'production',
-        sameSite: 'none',
+        sameSite: 'lax',
       },
       key: 'da3',
     },
