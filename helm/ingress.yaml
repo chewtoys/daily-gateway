@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: daily-ingress-ip
+  labels:
+    app: daily
+  name: daily-ingress
+  namespace: daily
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /*
+            backend:
+              serviceName: daily-gateway
+              servicePort: http
+          - path: /graphql
+            backend:
+              serviceName: daily-api-v2
+              servicePort: http
+  tls:
+    - hosts:
+        - app.dailynow.co
+      secretName: app-dailynow-co-tls
+    - hosts:
+        - api.daily.dev
+      secretName: api-daily-dev-tls
