@@ -19,6 +19,14 @@ spec:
             backend:
               serviceName: daily-api-v2
               servicePort: http
+          - path: /v1/a
+            backend:
+              serviceName: daily-monetization
+              servicePort: http
+          - path: /v1/a/*
+            backend:
+              serviceName: daily-monetization
+              servicePort: http
   tls:
     - hosts:
         - app.dailynow.co
