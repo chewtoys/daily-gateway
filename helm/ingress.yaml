@@ -27,6 +27,10 @@ spec:
             backend:
               serviceName: daily-monetization
               servicePort: http
+          - path: /scrape/*
+            backend:
+              serviceName: daily-scraper
+              servicePort: http
   tls:
     - hosts:
         - app.dailynow.co
