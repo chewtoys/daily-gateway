@@ -91,7 +91,7 @@ router.post(
             ctx.log.info({ userId }, 'upgrading to premium');
             await userModel.update(userId, { premium: true });
             if (process.env.NODE_ENV === 'production') {
-              await addUserToContacts(user, 'b5bfeeec-4faf-4e38-a2d8-884ce0ad2e57', contactId);
+              await addUserToContacts(user, ['b5bfeeec-4faf-4e38-a2d8-884ce0ad2e57'], contactId);
             }
             break;
           case 'CANCELLATION':

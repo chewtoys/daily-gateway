@@ -25,7 +25,7 @@ export const addUserToContacts = (profile, lists, contactId) => {
     method: 'PUT',
     url: '/v3/marketing/contacts',
     body: {
-      list_ids: lists ? [lists] : undefined,
+      list_ids: lists || undefined,
       contacts: [profileToContact(profile, contactId)],
     },
   };
@@ -65,7 +65,7 @@ export const getContactIdByEmail = async (email) => {
   return null;
 };
 
-export const updateUserContact = async (newProfile, oldEmail, list) => {
+export const updateUserContact = async (newProfile, oldEmail, lists) => {
   const contactId = await getContactIdByEmail(oldEmail);
-  return addUserToContacts(newProfile, list, contactId);
+  return addUserToContacts(newProfile, lists, contactId);
 };
