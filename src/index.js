@@ -141,9 +141,6 @@ app.use(proxy('/', {
   target: config.apiUrl,
   changeOrigin: true,
   xfwd: true,
-  headers: {
-    authorization: `Service ${config.apiSecret}`,
-  },
 }));
 
 export default app;
