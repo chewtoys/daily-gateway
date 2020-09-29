@@ -6,16 +6,17 @@ const worker = {
   subscription: envBasedName('user-updated-mailing'),
   handler: async (message, log) => {
     const data = messageToJson(message);
+    if (!data.newProfile.email || !data.newProfile.email.length) {
+      log.warn({ messageId: message.id, userId: data.user.id }, 'no email in user-updated message');
+      message.ack();
+      return;
+    }
     try {
       const lists = ['85a1951f-5f0c-459f-bf5e-e5c742986a50'];
       if (!data.newProfile.acceptedMarketing) {
         const contactId = await getContactIdByEmail(data.user.email);
         if (contactId) {
-          try {
-            await removeUserFromList('53d09271-fd3f-4e38-ac21-095bf4f52de6', contactId);
-          } catch (err) {
-            log.warn({ messageId: message.id, err, userId: data.user.id }, 'failed to remove user from newsletter list');
-          }
+          await removeUserFromList('53d09271-fd3f-4e38-ac21-095bf4f52de6', contactId);
         }
       } else {
         lists.push('53d09271-fd3f-4e38-ac21-095bf4f52de6');
