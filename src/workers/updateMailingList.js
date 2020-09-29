@@ -11,7 +11,11 @@ const worker = {
       if (!data.newProfile.acceptedMarketing) {
         const contactId = await getContactIdByEmail(data.user.email);
         if (contactId) {
-          await removeUserFromList('53d09271-fd3f-4e38-ac21-095bf4f52de6', contactId);
+          try {
+            await removeUserFromList('53d09271-fd3f-4e38-ac21-095bf4f52de6', contactId);
+          } catch (err) {
+            log.warn({ messageId: message.id, err, userId: data.user.id }, 'failed to remove user from newsletter list');
+          }
         }
       } else {
         lists.push('53d09271-fd3f-4e38-ac21-095bf4f52de6');
