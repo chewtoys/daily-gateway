@@ -19,7 +19,7 @@ const worker = {
       await updateUserContact(data.newProfile, data.user.email, lists);
       message.ack();
     } catch (err) {
-      log.error({ messageId: message.id, err, userId: data.id }, 'failed to update user to mailing list');
+      log.error({ messageId: message.id, err, userId: data.user.id }, 'failed to update user to mailing list');
       message.nack();
     }
   },
