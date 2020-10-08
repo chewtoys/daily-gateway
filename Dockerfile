@@ -1,4 +1,5 @@
-FROM node:12.14.1-alpine
+FROM node:14.13-alpine
+RUN apk add g++ make python
 
 EXPOSE 3000
 
