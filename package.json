@@ -24,6 +24,13 @@
     "url": "https://github.com/elegantmonkeys/daily-gateway/issues"
   },
   "homepage": "https://github.com/elegantmonkeys/daily-gateway#readme",
+  "mocha": {
+    "require": ["@babel/register", "test/setup"],
+    "ui": "bdd",
+    "recursive": ["test/integration"],
+    "timeout": 5000,
+    "exit": true
+  },
   "dependencies": {
     "@google-cloud/profiler": "^4.0.0",
     "@google-cloud/pubsub": "^2.2.0",
@@ -64,7 +71,7 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-mocha": "^4.11.0",
     "knex-cleaner": "^1.1.4",
-    "mocha": "^6.2.0",
+    "mocha": "^8.1.3",
     "mocha-junit-reporter": "^1.23.0",
     "nock": "^9.4.2",
     "nodemon": "^2.0.4",
