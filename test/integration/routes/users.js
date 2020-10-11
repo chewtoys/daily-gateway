@@ -283,7 +283,7 @@ describe('users routes', () => {
         .set('Cookie', [`da3=${accessToken.token}`])
         .set('Content-Type', 'application/json')
         .send({
-          name: 'John', email: 'john@acme.com', company: 'ACME', title: 'Developer',
+          name: 'John', email: 'john@acme.com', company: 'ACME', title: 'Developer', username: 'john',
         })
         .expect(200);
 
@@ -299,6 +299,7 @@ describe('users routes', () => {
         acceptedMarketing: true,
         reputation: 0,
         referralLink: 'https://api.daily.dev/get?r=id',
+        username: 'john',
       });
     });
 
@@ -311,7 +312,7 @@ describe('users routes', () => {
         .set('Cookie', [`da3=${accessToken.token}`])
         .set('Content-Type', 'application/json')
         .send({
-          name: 'John', email: 'john@acme.com', company: 'ACME', title: 'Developer', acceptedMarketing: true,
+          name: 'John', email: 'john@acme.com', company: 'ACME', title: 'Developer', acceptedMarketing: true, username: 'john',
         })
         .expect(200);
 
@@ -327,6 +328,7 @@ describe('users routes', () => {
         acceptedMarketing: true,
         reputation: 0,
         referralLink: 'https://api.daily.dev/get?r=id',
+        username: 'john',
       });
     });
 
@@ -340,7 +342,7 @@ describe('users routes', () => {
         .set('Cookie', [`da3=${accessToken.token}`])
         .set('Content-Type', 'application/json')
         .send({
-          name: 'John', email: 'john@acme.com', company: 'ACME', title: 'Developer',
+          name: 'John', email: 'john@acme.com', company: 'ACME', title: 'Developer', username: 'john',
         })
         .expect(400);
 
@@ -386,7 +388,7 @@ describe('users routes', () => {
         .set('Cookie', [`da3=${accessToken.token}`])
         .set('Content-Type', 'application/json')
         .send({
-          name: 'John', email: 'john@acme.com', twitter: 'IdoShamun',
+          name: 'John', email: 'john@acme.com', twitter: 'IdoShamun', username: 'john',
         })
         .expect(400);
 
@@ -409,7 +411,7 @@ describe('users routes', () => {
         .set('Cookie', [`da3=${accessToken.token}`])
         .set('Content-Type', 'application/json')
         .send({
-          name: 'John', email: 'john@acme.com', github: 'IdoShamun',
+          name: 'John', email: 'john@acme.com', github: 'IdoShamun', username: 'john',
         })
         .expect(400);
 

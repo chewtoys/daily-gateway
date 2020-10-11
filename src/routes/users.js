@@ -85,7 +85,7 @@ router.put(
       company: string().allow(null).max(50),
       title: string().allow(null).max(50),
       acceptedMarketing: boolean(),
-      username: string().allow(null).regex(/^@?(\w){1,15}$/),
+      username: string().required().regex(/^@?(\w){1,15}$/),
       bio: string().allow(null).max(160),
       twitter: string().allow(null).regex(/^@?(\w){1,15}$/),
       github: string().allow(null).regex(/^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i),
