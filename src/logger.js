@@ -5,7 +5,7 @@ const loggerOptions = (() => {
   if (config.env === 'test') {
     return { level: 'error' };
   }
-  return null;
+  return undefined;
 })();
 
 export default pino(loggerOptions);
