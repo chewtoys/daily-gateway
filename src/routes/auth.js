@@ -123,7 +123,7 @@ const callback = async (ctx, providerName, payloadFunc) => {
     if (user.infoConfirmed) {
       ctx.redirect(state.redirect_uri);
     } else {
-      ctx.redirect(`${config.webappOrigin}/register?redirect_uri=${encodeURIComponent(state.redirect_uri)}`);
+      ctx.redirect(`${config.webappOrigin}/register?redirect_uri=${encodeURIComponent(state.redirect_uri)}&mode=${state.register_mode || 'default'}`);
     }
   } else {
     const { token: code } = await signJwt(payloadFunc(query, state), 60 * 1000);
@@ -159,6 +159,7 @@ router.get(
       code_challenge: string(),
       provider: string().required(),
       skip_authenticate: boolean(),
+      register_mode: string(),
     },
   }, {
     stripUnknown: true,
