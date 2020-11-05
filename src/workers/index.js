@@ -1,5 +1,4 @@
 import { pubsub } from '../pubsub';
-import slackNotification from './slackNotification';
 import updateMailingList from './updateMailingList';
 import updateReputation from './updateReputation';
 import config from '../config';
@@ -17,7 +16,6 @@ const initializeWorker = async (worker, log) => {
 // eslint-disable-next-line import/prefer-default-export
 export const startWorkers = async (log) => {
   if (config.env === 'production') {
-    await initializeWorker(slackNotification, log);
     await initializeWorker(updateMailingList, log);
     await initializeWorker(updateReputation, log);
   }
