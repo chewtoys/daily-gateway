@@ -9,7 +9,7 @@ import { migrate } from './src/db';
 logger.info('migrating database');
 migrate()
   .then(() => {
-    const isBackground = process.argv.reverse()[0] === 'background';
+    const isBackground = process.env.MODE === 'background';
     const app = isBackground ? background : foreground;
     const server = app.listen(config.port);
 

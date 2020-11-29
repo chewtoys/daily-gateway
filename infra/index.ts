@@ -5,15 +5,13 @@ import {
   infra,
   location, serviceAccountToMember,
 } from './helpers';
-import { Output } from '@pulumi/pulumi';
+import {Output} from '@pulumi/pulumi';
 
 const name = 'gateway';
 
 const imageTag = config.require('tag');
 
-const vpcConnector = infra.getOutput('serverlessVPC') as Output<
-  gcp.vpcaccess.Connector
->;
+const vpcConnector = infra.getOutput('serverlessVPC') as Output<gcp.vpcaccess.Connector>;
 
 const serviceAccount = new gcp.serviceaccount.Account(`${name}-sa`, {
   accountId: `daily-${name}`,
@@ -23,10 +21,10 @@ const serviceAccount = new gcp.serviceaccount.Account(`${name}-sa`, {
 addIAMRolesToServiceAccount(
   name,
   [
-    { name: 'profiler', role: 'roles/cloudprofiler.agent' },
-    { name: 'trace', role: 'roles/cloudtrace.agent' },
-    { name: 'secret', role: 'roles/secretmanager.secretAccessor' },
-    { name: 'pubsub', role: 'roles/pubsub.editor' },
+    {name: 'profiler', role: 'roles/cloudprofiler.agent'},
+    {name: 'trace', role: 'roles/cloudtrace.agent'},
+    {name: 'secret', role: 'roles/secretmanager.secretAccessor'},
+    {name: 'pubsub', role: 'roles/pubsub.editor'},
   ],
   serviceAccount,
 );
@@ -50,7 +48,7 @@ const service = new gcp.cloudrun.Service(name, {
       containers: [
         {
           image,
-          resources: { limits: { cpu: '1', memory: '512Mi' } },
+          resources: {limits: {cpu: '1', memory: '512Mi'}},
           envs: secrets,
         },
       ],
@@ -74,8 +72,7 @@ const bgService = new gcp.cloudrun.Service(`${name}-background`, {
         {
           image,
           resources: {limits: {cpu: '1', memory: '256Mi'}},
-          envs: secrets,
-          args: ['background'],
+          envs: [...secrets, {name: 'MODE', value: 'background'}],
         },
       ],
     },
@@ -101,9 +98,9 @@ new gcp.cloudrun.IamMember(`${name}-pubsub-invoker`, {
 });
 
 const workers = [
-  { topic: 'user-updated', subscription: 'user-updated-mailing' },
-  { topic: 'user-registered', subscription: 'user-registered-slack' },
-  { topic: 'user-reputation-updated', subscription: 'update-reputation' },
+  {topic: 'user-updated', subscription: 'user-updated-mailing'},
+  {topic: 'user-registered', subscription: 'user-registered-slack'},
+  {topic: 'user-reputation-updated', subscription: 'update-reputation'},
 ]
 
 workers.map((worker) => new gcp.pubsub.Subscription(`${name}-sub-${worker.subscription}`, {
