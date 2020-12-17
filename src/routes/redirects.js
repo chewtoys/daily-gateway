@@ -1,6 +1,5 @@
 import Router from 'koa-router';
 import validator, { string, object } from 'koa-context-validator';
-import querystring from 'querystring';
 import config from '../config';
 import { addSubdomainOpts } from '../cookies';
 
@@ -31,28 +30,6 @@ router.get(
       setReferral(ctx);
     }
     ctx.redirect(`https://daily.dev?${ctx.request.querystring}`);
-  },
-);
-
-router.get(
-  '/ref',
-  validator({
-    query: object().keys({
-      r: string(),
-      u: string(),
-    }).unknown(),
-  }),
-  async (ctx) => {
-    ctx.status = 307;
-
-    if (!ctx.userAgent.isBot) {
-      setReferral(ctx);
-    }
-    const { query } = ctx.request;
-    const { u } = query;
-    delete query.u;
-    const qs = querystring.stringify(query);
-    ctx.redirect(`${u}?${qs}`);
   },
 );
 
