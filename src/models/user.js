@@ -59,7 +59,10 @@ const add = (id, name, email, image, referral = null) => {
 
 const update = (id, user) => db(table)
   .where('id', '=', id)
-  .update(toSnakeCase({ ..._.pick(user, ['name', 'email', 'image', 'company', 'title', 'infoConfirmed', 'premium', 'acceptedMarketing', 'username', 'bio', 'twitter', 'github', 'portfolio']), updatedAt: new Date() }));
+  .update(toSnakeCase({
+    ..._.pick(user, ['name', 'email', 'image', 'company', 'title', 'infoConfirmed', 'premium', 'acceptedMarketing', 'username', 'bio', 'twitter', 'github', 'portfolio', 'hashnode']),
+    updatedAt: new Date(),
+  }));
 
 const updateReputation = (id, reputation) => db(table)
   .where('id', '=', id)
