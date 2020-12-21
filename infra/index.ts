@@ -35,6 +35,7 @@ const image = `gcr.io/daily-ops/daily-${name}:${imageTag}`;
 
 const service = new gcp.cloudrun.Service(name, {
   name,
+  autogenerateRevisionName: true,
   location,
   template: {
     metadata: {
@@ -58,6 +59,7 @@ const service = new gcp.cloudrun.Service(name, {
 
 const bgService = new gcp.cloudrun.Service(`${name}-background`, {
   name: `${name}-background`,
+  autogenerateRevisionName: true,
   location,
   template: {
     metadata: {

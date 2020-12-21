@@ -216,7 +216,7 @@ router.get(
       return;
     }
     ctx.status = 200;
-    ctx.body = _.pick(user, ['id', 'name', 'image', 'premium', 'username', 'bio', 'twitter', 'github', 'portfolio', 'reputation', 'createdAt']);
+    ctx.body = _.pick(user, ['id', 'name', 'image', 'premium', 'username', 'bio', 'twitter', 'github', 'hashnode', 'portfolio', 'reputation', 'createdAt']);
   },
 );
 
