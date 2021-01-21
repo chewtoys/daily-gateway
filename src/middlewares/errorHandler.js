@@ -40,7 +40,7 @@ const errorHandler = () => async (ctx, next) => {
       default:
         ctx.status = err.status || 500;
         ctx.body = {
-          message: err.message || 'Unexpected error',
+          message: 'Unexpected error',
         };
         break;
     }
