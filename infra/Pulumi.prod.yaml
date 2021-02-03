@@ -23,7 +23,7 @@ config:
     cookiesKey:
       secure: AAABANqssCoeQV1T/2yY7ifRwbFSLJYVxQlUe1HfEdSegHSDrt6OKCq2JRDb2Xmczs8Uk5pUzKuG4ZSN0FlJ1Vg2DnGTH/pAA83oBHa92A==
     corsOrigin:
-      secure: AAABAPmIyZyHupuwJVNh52krFiOtKu2OoqKE3S9x6d30hzJcjzuW1JGOG0AyhBrgS8lku5C5EZlswlwEwWLEB44G7qh7+NzQ53+nnykXG1djvdsGx8UOFT+Vqps0rhyai6IBsyKvqALDTlhQNVYBsjb3WIUbmUs+DDE2BYoF8QCEHOJpHHpKJZlCvtLT/g6OnIXa/jmF4r3/15qDhF8MMq4ZujWASau9f49RAVnOAnOHFJKVRKE9M09BvATeZ09TOEW6jhbBIoHTcGXQgichK5e3Wjz37unklu+aw0VSINjUwJveAvHd0lVAkIGr31/ZsSdWVd+c
+      secure: AAABAN5prznjc93/PzBfle8qSTzV7wuNKPhwTlakskgdg2wMIwaI/yNWhJnikV5OfhG9h4ep4l6Sb0cn2/gWpXMIVjola1W0RWX/g9OVgGs05wjjftUv3I8wDEPkOWajXOLbyVI/298z4Q18XoPCKdkZlYrh9hL+oZu3OkfbWoEbL/c7+H12JGx0ImI6435IvKP5CMWgyBX1OUdLaS30ww==
     githubClientId:
       secure: AAABACbheY5sozmUuMtYbrq8iV3hUqW5bHbVMaD93Hj40LiLzPJ3d6YeIJMqv5ZQBYmXBg==
     githubClientSecret:
