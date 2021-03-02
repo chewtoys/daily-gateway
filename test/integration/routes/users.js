@@ -346,6 +346,36 @@ describe('users routes', () => {
       });
     });
 
+    it('should allow hyphen in GitHub handle', async () => {
+      await userModel.add('id', 'John');
+      const accessToken = await sign({ userId: 'id' }, null);
+
+      const res = await request
+        .put('/v1/users/me')
+        .set('Cookie', [`da3=${accessToken.token}`])
+        .set('Content-Type', 'application/json')
+        .send({
+          name: 'John', email: 'john@acme.com', company: 'ACME', title: 'Developer', username: 'john', github: 'john-acme',
+        })
+        .expect(200);
+
+      delete res.body.createdAt;
+      expect(res.body).to.deep.equal({
+        id: 'id',
+        name: 'John',
+        email: 'john@acme.com',
+        company: 'ACME',
+        title: 'Developer',
+        infoConfirmed: true,
+        premium: false,
+        acceptedMarketing: true,
+        reputation: 1,
+        referralLink: 'https://api.daily.dev/get?r=id',
+        username: 'john',
+        github: 'john-acme',
+      });
+    });
+
     it('should update the accepted marketing field', async () => {
       await userModel.add('id', 'John');
       const accessToken = await sign({ userId: 'id' }, null);
