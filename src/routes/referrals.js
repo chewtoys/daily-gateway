@@ -80,16 +80,13 @@ router.post(
 router.get(
   '/monthly',
   async (ctx) => {
-    if (!ctx.state.user) {
-      throw new ForbiddenError();
-    }
-
     const ongoingContest = await contest.getOngoingContest();
     if (!ongoingContest) {
       throw new ForbiddenError();
     }
 
-    const participant = await contest.getParticipant(ongoingContest.id, ctx.state.user.userId);
+    const participant = ctx.state.user
+      && await contest.getParticipant(ongoingContest.id, ctx.state.user.userId);
 
     ctx.status = 200;
     ctx.body = {
