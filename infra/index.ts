@@ -6,7 +6,7 @@ import {
   createK8sServiceAccountFromGCPServiceAccount, createMigrationJob,
   createServiceAccountAndGrantRoles, createSubscriptionsFromWorkers,
   imageTag, infra, k8sServiceAccountToIdentity
-} from "@dailydotdev/pulumi-common";
+} from '@dailydotdev/pulumi-common';
 
 const name = 'gateway';
 
