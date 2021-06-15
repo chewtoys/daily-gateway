@@ -1,0 +1,12 @@
+version: "3"
+
+volumes:
+  db:
+
+services:
+  daily-mysql:
+    image: gcr.io/daily-ops/mysql
+    ports:
+      - "3306:3306"
+    volumes:
+      - db:/var/lib/mysql

@@ -29,10 +29,7 @@ const secrets = createEnvVarsFromSecret(name);
 const image = `gcr.io/daily-ops/daily-${name}:${imageTag}`;
 
 // Create K8S service account and assign it to a GCP service account
-const {namespace} = config.requireObject<{
-  namespace: string;
-  host: string;
-}>('k8s');
+const {namespace} = config.requireObject<{ namespace: string }>('k8s');
 
 const k8sServiceAccount = createK8sServiceAccountFromGCPServiceAccount(
   `${name}-k8s-sa`,
